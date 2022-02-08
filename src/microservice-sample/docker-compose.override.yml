@@ -1,0 +1,43 @@
+version: '3.4'
+
+services:
+  listingdb:
+    container_name: listingdb
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin1234
+      - POSTGRES_DB=listingdb
+    restart: always
+    ports:
+      - "1234:1234"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+
+  pgadmin:
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=hieu@microservice_sample.com
+      - PGADMIN_DEFAULT_PASSWORD=admin1234
+    restart: always
+    ports:
+        - "5050:80"
+    volumes:
+      - pgadmin_data:/root/.pgadmin
+
+  listing.api:
+    container_name: listing.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=Server=discountdb;Port=5432;Database=DiscountDb;User Id=admin;Password=admin1234;"
+    depends_on:
+      - listingdb
+    ports:
+      - "8002:80"
+
+  auth.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8001:80"
+

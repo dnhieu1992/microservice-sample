@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  listingdb:
+    image: postgres
+
+  pgadmin:
+    image: dpage/pgadmin4
+
+  listing.api:
+    image: ${DOCKER_REGISTRY-}listingapi
+    build:
+      context: .
+      dockerfile: Services/Listing/Listing.API/Dockerfile
+
+  auth.api:
+    image: ${DOCKER_REGISTRY-}authapi
+    build:
+      context: .
+      dockerfile: Services/Auth/Auth.API/Dockerfile
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
