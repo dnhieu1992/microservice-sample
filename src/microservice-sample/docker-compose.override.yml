@@ -13,7 +13,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
-
   pgadmin:
     container_name: pgadmin
     environment:
@@ -33,11 +32,22 @@ services:
     depends_on:
       - listingdb
     ports:
-      - "8002:80"
+      - "8001:80"
 
   auth.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "8001:80"
+      - "8000:80"
 
+  assetmanagement.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8002:80"
+
+  booking.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8003:80"
